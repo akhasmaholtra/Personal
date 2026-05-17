@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Baker | Personal Branding</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Warm, earthy palette */
+            --bg-color: #F8F5F2; 
+            --bg-secondary: #EBE3D9;
+            --text-title: #2C1E16;
+            --text-subtitle: #8A6B58;
+            --accent: #D4A373;
+            --accent-hover: #C08A56;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-title);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-title);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: padding 0.3s, background-color 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background-color: rgba(248, 245, 242, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-title);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-subtitle);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-title);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .showcase-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero-image {
+            width: 350px;
+            height: auto;
+            mix-blend-mode: multiply;
+            transform: translateZ(100px);
+            filter: drop-shadow(0px 30px 20px rgba(44, 30, 22, 0.2));
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: var(--text-title);
+            margin-top: -40px;
+            line-height: 1.1;
+            transform: translateZ(50px);
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-subtitle);
+            margin-top: 15px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transform: translateZ(30px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-subtitle);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background-color: var(--text-subtitle);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+
+        /* About Section */
+        .about {
+            padding: 10rem 5%;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5rem;
+        }
+
+        .about-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .about-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-title);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-subtitle);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: transparent;
+            border: 1px solid var(--text-title);
+            color: var(--text-title);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            cursor: none; /* Keep custom cursor */
+        }
+
+        .btn:hover {
+            background-color: var(--text-title);
+            color: var(--white);
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        /* Experience Section */
+        .experience {
+            padding: 10rem 5%;
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .experience-header {
+            margin-bottom: 5rem;
+        }
+
+        .experience-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--text-title);
+        }
+
+        .experience-cards {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .experience-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            padding: 4rem 2rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease;
+            cursor: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-moon {
+            background-color: #a61226;
+            color: var(--white);
+        }
+
+        .card-moon h3 {
+            color: var(--white);
+        }
+
+        .card-bukit {
+            background-color: #6ab02c;
+            color: var(--white);
+        }
+        
+        .card-bukit h3 .bukit-text {
+            color: #FFFFFF;
+        }
+
+        .experience-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .experience-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Specialties Section */
+        .specialties {
+            padding: 10rem 5%;
+            background-color: var(--bg-secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--text-title);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: none;
+            aspect-ratio: 4/5;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h3 {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay h3 {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 5%;
+            background-color: var(--text-title);
+            color: var(--bg-color);
+            text-align: center;
+        }
+
+        .footer-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-content p {
+            color: #b0a198;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: var(--bg-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            cursor: none;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Scroll Animations (Intersection Observer) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title { font-size: 3.5rem; }
+            .about { flex-direction: column; padding: 5rem 5%; }
+            .about-image { order: -1; }
+            .nav-links { display: none; /* Implement hamburger menu for real project */ }
+            .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
+            .btn, .social-links a, .gallery-item { cursor: pointer; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">L'Artisan.</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Philosophy</a></li>
+            <li><a href="#specialties">Creations</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="showcase-wrapper" id="scene">
+            <img src="assets/images/hero/home.webp" alt="Hero Image" class="hero-image">
+            <h1 class="title">Bake.<br>Craft.</h1>
+            <p class="subtitle">Baker & Pastry Staff</p>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div> 
+            <span>Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-text reveal">
+            <h2>The Art of Fermentation</h2>
+            <p>Baking is more than a profession; it is an intimate dialogue with time, temperature, and technique. Every loaf of sourdough and delicate layer of pastry tells a story of patience and precision.</p>
+            <p>Sourcing the finest organic flours and cultivating wild yeast, I bring the rustic elegance of European boulangeries directly to your table.</p>
+            <a href="#specialties" class="btn">Discover My Work</a>
+        </div>
+        <div class="about-image reveal delay-1">
+            <img src="assets/images/about/fermentation.webp" alt="Baker shaping dough">
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="experience-header reveal">
+            <h2>Where I Learned & Worked</h2>
+        </div>
+        <div class="experience-cards">
+            <div class="experience-card card-moon reveal delay-1">
+                <h3>Moon Pastry</h3>
+                <p>The foundation of my skills. Here, I mastered the delicate art of pastry-making, discipline, and precision.</p>
+            </div>
+            <div class="experience-card card-bukit reveal delay-2">
+                <h3><span class="bukit-text">Bukit</span> <span class="farm-text">Farm</span></h3>
+                <p>Where the kitchen meets the soil. Experiencing the intense rhythm of a farm-to-table kitchen, transforming fresh, local harvests into culinary art.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section id="specialties" class="specialties">
+        <div class="section-header reveal">
+            <h2>Signature Creations</h2>
+            <p style="color: var(--text-subtitle); margin-top: 10px;">Baked fresh before the sun rises.</p>
+        </div>
+        
+        <div class="gallery">
+            <div class="gallery-item reveal delay-1">
+                <img src="assets/images/gallery/gallery1.webp" alt="Gallery Image 1">
+                <div class="gallery-overlay">
+                    <h3>Creation 1</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-2">
+                <img src="assets/images/gallery/gallery2.webp" alt="Gallery Image 2">
+                <div class="gallery-overlay">
+                    <h3>Creation 2</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-3">
+                <img src="assets/images/gallery/gallery3.webp" alt="Gallery Image 3">
+                <div class="gallery-overlay">
+                    <h3>Creation 3</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-1">
+                <img src="assets/images/gallery/gallery4.webp" alt="Gallery Image 4">
+                <div class="gallery-overlay">
+                    <h3>Creation 4</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-2">
+                <img src="assets/images/gallery/gallery5.webp" alt="Gallery Image 5">
+                <div class="gallery-overlay">
+                    <h3>Creation 5</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-3">
+                <img src="assets/images/gallery/gallery6.webp" alt="Gallery Image 6">
+                <div class="gallery-overlay">
+                    <h3>Creation 6</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-1">
+                <img src="assets/images/gallery/gallery7.webp" alt="Gallery Image 7">
+                <div class="gallery-overlay">
+                    <h3>Creation 7</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-2">
+                <img src="assets/images/gallery/gallery8.webp" alt="Gallery Image 8">
+                <div class="gallery-overlay">
+                    <h3>Creation 8</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-3">
+                <img src="assets/images/gallery/gallery9.webp" alt="Gallery Image 9">
+                <div class="gallery-overlay">
+                    <h3>Creation 9</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-1">
+                <img src="assets/images/gallery/gallery10.webp" alt="Gallery Image 10">
+                <div class="gallery-overlay">
+                    <h3>Creation 10</h3>
+                </div>
+            </div>
+            <div class="gallery-item reveal delay-2">
+                <img src="assets/images/gallery/gallery11.webp" alt="Gallery Image 11">
+                <div class="gallery-overlay">
+                    <h3>Creation 11</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content reveal">
+            <h2>Let's Bake Together</h2>
+            <p>Available for private events, restaurant cafe supplies, and wholesale.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/seanbagy/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="mailto:nurulhudatwocat56@gmail.com">Email</a>
+                <a href="https://wa.me/6285385095256" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Custom Cursor ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            // Animate outline with slight delay for smooth effect
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effect for links and buttons
+        const interactables = document.querySelectorAll('a, .btn, .gallery-item');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(212, 163, 115, 0.2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // --- 2. 3D Tilt Effect on Hero ---
+        const scene = document.getElementById('scene');
+        
+        const applyTilt = (clientX, clientY) => {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const rotateX = ((centerY - clientY) / 25); 
+            const rotateY = ((clientX - centerX) / 25);
+            
+            scene.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        };
+
+        document.addEventListener('mousemove', (e) => {
+            // Only apply tilt if we are near the top of the page
+            if(window.scrollY < window.innerHeight) {
+                applyTilt(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if(window.scrollY < window.innerHeight) {
+                applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        const resetTilt = () => {
+            scene.style.transition = 'transform 0.5s ease-out';
+            scene.style.transform = `rotateX(0deg) rotateY(0deg)`;
+            setTimeout(() => {
+                scene.style.transition = 'transform 0.1s ease-out';
+            }, 500);
+        };
+
+        document.addEventListener('mouseleave', resetTilt);
+
+        // --- 3. Scroll Reveal Animations ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: stop observing once revealed
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+        
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- 4. Navbar Scroll Effect ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>>
